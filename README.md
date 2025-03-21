@@ -1,6 +1,6 @@
 # ServerObjectCreator
 
-![ServerObjectCreator](https://img.shields.io/badge/Version-1.0-blue.svg) ![License](https://img.shields.io/badge/License-MIT-green.svg)
+![ServerObjectCreator](https://img.shields.io/badge/Version-1.0-blue.svg) ![License](https://img.shields.io/badge/License-AGPLv3-red.svg)
 
 **ServerObjectCreator** is a C# utility designed to manage `serverobjects.lua` files within the `custom_scripts` directory for SWGEmu projects. It automates file creation, structure replication, and reference corrections.
 
@@ -21,7 +21,7 @@
 
 ### 1️⃣ **Clone the Repository**
 ```sh
-git clone https://github.com/your-username/ServerObjectCreator.git
+git clone https://github.com/MalaceNathrack/ServerObjectCreator.git
 cd ServerObjectCreator
 ```
 
@@ -129,26 +129,33 @@ ServerObjectCreator/
 
 ## 📝 License
 
-This project is licensed under the **MIT License**.
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.
 
 ```
-MIT License
+GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3, 19 November 2007
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-...
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published
+by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
 ```
 
 ---
 
 ## 🎯 Future Improvements (TODO List)
 - [ ] Add **logging to a file** instead of just console output
-- [ ] Add **Linux** confirm project can be built on linux systems
+- [ ] Add **unit tests** to validate functions
 - [ ] Add **CLI arguments** (e.g., `--fix`, `--delete-all`)
+- [ ] Support **custom exclusions** for folder replication
 
 ---
 
