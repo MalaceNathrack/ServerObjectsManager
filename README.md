@@ -153,7 +153,7 @@ furnished to do so, subject to the following conditions:
 ---
 
 ## 🛠 Need Help?
-If you run into issues, open an [issue on GitHub](https://github.com/your-username/ServerObjectCreator/issues) or reach out.
+If you run into issues, open an [issue on GitHub](https://github.com/MalaceNathrack/ServerObjectCreator/issues) or reach out.
 
 ---
 
@@ -161,5 +161,5 @@ If you run into issues, open an [issue on GitHub](https://github.com/your-userna
 If you found this tool useful, **give it a star ⭐ on GitHub**!
 
 ```
-git clone https://github.com/your-username/ServerObjectCreator.git
+git clone https://github.com/MalaceNathrack/ServerObjectCreator.git
 ```
