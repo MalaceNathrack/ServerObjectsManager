@@ -147,9 +147,8 @@ furnished to do so, subject to the following conditions:
 
 ## 🎯 Future Improvements (TODO List)
 - [ ] Add **logging to a file** instead of just console output
-- [ ] Add **unit tests** to validate functions
+- [ ] Add **Linux** confirm project can be built on linux systems
 - [ ] Add **CLI arguments** (e.g., `--fix`, `--delete-all`)
-- [ ] Support **custom exclusions** for folder replication
 
 ---
 
