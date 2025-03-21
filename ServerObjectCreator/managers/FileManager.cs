@@ -126,7 +126,12 @@ namespace ServerObjectCreator.managers
 
             foreach (string dir in Directory.GetDirectories(sourceRoot, "*", SearchOption.AllDirectories))
             {
-                if (dir.StartsWith(targetRoot, StringComparison.OrdinalIgnoreCase)) continue;
+                // Ensure we do NOT copy 'custom_scripts' inside itself
+                if (dir.StartsWith(targetRoot, StringComparison.OrdinalIgnoreCase) || dir.Contains("custom_scripts"))
+                {
+                    Console.WriteLine($"Skipping: {dir} (avoiding self-cloning)");
+                    continue;
+                }
 
                 string relative = dir.Substring(sourceRoot.Length);
                 string targetDir = Path.Combine(ConfigManager.Config.CustomScriptsPath, relative);
@@ -137,6 +142,7 @@ namespace ServerObjectCreator.managers
 
             Console.WriteLine("\nFolder structure replicated.");
         }
+
 
         /// <summary> Extracts lines between two comment headers. If endHeader is null, returns to end of content. </summary>
         private static IEnumerable<string> ExtractIncludeBlock(string content, string startHeader, string endHeader)
