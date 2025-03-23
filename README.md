@@ -63,14 +63,32 @@ You can use the app with **command-line arguments** for automation, or without a
 ### ✅ Command-line Examples
 
 ```bash
-dotnet run -- --create          # Create 'serverobjects.lua' in all folders
-dotnet run -- --fix-files       # Fix includeFile() references
-dotnet run -- --fix-children    # Fix subfolder includes
-dotnet run -- --delete          # Delete all 'serverobjects.lua'
-dotnet run -- --replicate       # Copy folder structure
-dotnet run -- --set-paths       # Set paths in config
-dotnet run -- --help            # Show help
+# Create 'serverobjects.lua' in all folders (requires valid config)
+dotnet run -- --create
+
+# Fix includeFile() references for Lua files
+dotnet run -- --fix-files
+
+# Fix child folder include references
+dotnet run -- --fix-children
+
+# Delete all serverobjects.lua files (⚠️ use with caution)
+dotnet run -- --delete
+
+# Replicate folder structure from 'scripts' to 'custom_scripts'
+dotnet run -- --replicate
+
+# Set paths interactively
+dotnet run -- --set-paths
+
+# Set paths from CLI arguments
+dotnet run -- --set-paths "C:/MyGame/custom_scripts" "C:/MyGame/scripts"
+
+# Show help
+dotnet run -- --help
 ```
+
+If the paths are not set or invalid, a friendly message will prompt you to use `--set-paths` first.
 
 ---
 
@@ -110,7 +128,10 @@ Stores custom paths:
 }
 ```
 
-Can be edited manually, or via menu option `[5] Set Paths`.
+Can be edited manually, or via:
+```bash
+dotnet run -- --set-paths "path/to/custom_scripts" "path/to/scripts"
+```
 
 ---
 
