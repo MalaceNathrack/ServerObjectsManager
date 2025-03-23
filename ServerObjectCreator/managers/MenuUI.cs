@@ -1,7 +1,7 @@
 ﻿using ServerObjectCreator.models;
 using System;
 
-namespace ServerObjectCreator.UI
+namespace ServerObjectCreator.managers
 {
     public static class MenuUI
     {
@@ -13,8 +13,12 @@ namespace ServerObjectCreator.UI
 
             try
             {
-                Console.SetWindowSize(width, height);
-                Console.SetBufferSize(width, height);
+                if (OperatingSystem.IsWindows())
+                {
+                    Console.SetWindowSize(width, height);
+                    Console.SetBufferSize(width, height);
+                    return;
+                }
             }
             catch (Exception ex)
             {

@@ -17,8 +17,11 @@ namespace ServerObjectCreator.managers
             {
                 try
                 {
-                    string json = File.ReadAllText(ConfigFilePath);
-                    Config = JsonSerializer.Deserialize<Config>(json);
+                    string? json = File.ReadAllText(ConfigFilePath);
+                    if (json is not null)
+                    {
+                        Config = JsonSerializer.Deserialize<Config>(json) ?? new Config();
+                    }
                     return;
                 }
                 catch (Exception ex)
@@ -35,16 +38,22 @@ namespace ServerObjectCreator.managers
         public static void SetPaths()
         {
             Console.Write("Enter the path to the custom_scripts folder: ");
-            Config.CustomScriptsPath = Console.ReadLine().Trim();
+            Config.CustomScriptsPath = Console.ReadLine()?.Trim() ?? string.Empty;
 
             Console.Write("Enter the path to the scripts folder: ");
-            Config.ScriptsPath = Console.ReadLine().Trim();
+            Config.ScriptsPath = Console.ReadLine()?.Trim() ?? string.Empty;
 
+            SavePaths();
+            Console.WriteLine("Paths saved successfully!");
+        }
+
+        /// <summary> Saves the current config to config.json </summary>
+        private static void SavePaths()
+        {
             try
             {
                 string json = JsonSerializer.Serialize(Config, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(ConfigFilePath, json);
-                Console.WriteLine("Paths saved successfully!");
             }
             catch (Exception ex)
             {
@@ -52,12 +61,21 @@ namespace ServerObjectCreator.managers
             }
         }
 
+        /// <summary> Allows setting paths directly from CLI args. </summary>
+        public static void SetPathsFromArgs(string customPath, string scriptsPath)
+        {
+            Config.CustomScriptsPath = customPath.Trim();
+            Config.ScriptsPath = scriptsPath.Trim();
+            SavePaths();
+            Console.WriteLine("✅ Paths set via CLI.");
+        }
+
         /// <summary> Verifies if the custom_scripts path exists. </summary>
         public static bool ValidateCustomScriptsPath()
         {
             if (!Directory.Exists(Config.CustomScriptsPath))
             {
-                Console.WriteLine("The custom_scripts path does not exist. Set paths first.");
+                Console.WriteLine("❌ The custom_scripts path does not exist. Run '--set-paths' first.");
                 return false;
             }
             return true;
@@ -68,10 +86,16 @@ namespace ServerObjectCreator.managers
         {
             if (!Directory.Exists(Config.ScriptsPath))
             {
-                Console.WriteLine("The scripts path does not exist. Set paths first.");
+                Console.WriteLine("❌ The scripts path does not exist. Run '--set-paths' first.");
                 return false;
             }
             return true;
+        }
+
+        /// <summary> Validates that both custom_scripts and scripts paths are set and exist. </summary>
+        public static bool ValidateAllPaths()
+        {
+            return ValidateCustomScriptsPath() && ValidateScriptsPath();
         }
     }
 }

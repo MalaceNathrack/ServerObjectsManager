@@ -145,7 +145,7 @@ namespace ServerObjectCreator.managers
 
 
         /// <summary> Extracts lines between two comment headers. If endHeader is null, returns to end of content. </summary>
-        private static IEnumerable<string> ExtractIncludeBlock(string content, string startHeader, string endHeader)
+        private static IEnumerable<string> ExtractIncludeBlock(string content, string startHeader, string? endHeader)
         {
             int start = content.IndexOf(startHeader);
             int end = endHeader != null ? content.IndexOf(endHeader, start + 1) : content.Length;

@@ -10,8 +10,8 @@ namespace ServerObjectCreator.models
 {
     public class Config
     {
-        public string CustomScriptsPath { get; set; }
-        public string ScriptsPath { get; set; }
+        public string CustomScriptsPath { get; set; } = string.Empty;
+        public string ScriptsPath { get; set; } = string.Empty;
     }
 
 }
