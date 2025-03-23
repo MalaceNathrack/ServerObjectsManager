@@ -7,7 +7,6 @@ namespace ServerObjectCreator.managers
 {
     public static class FileManager
     {
-        /// <summary> Creates 'serverobjects.lua' in each folder under custom_scripts (if not present). </summary>
         public static void CreateServerObjectFiles()
         {
             if (!ConfigManager.ValidateCustomScriptsPath()) return;
@@ -31,7 +30,6 @@ namespace ServerObjectCreator.managers
             Console.WriteLine("\nAll done!");
         }
 
-        /// <summary> Deletes all serverobjects.lua files in custom_scripts. </summary>
         public static void DeleteAllServerObjectFiles()
         {
             if (!ConfigManager.ValidateCustomScriptsPath()) return;
@@ -56,7 +54,6 @@ namespace ServerObjectCreator.managers
             Console.WriteLine($"\nDeleted {deleted} serverobjects.lua files.");
         }
 
-        /// <summary> Scans and updates child folder references inside each 'serverobjects.lua' file. </summary>
         public static void FixChildFolderIncludes()
         {
             if (!ConfigManager.ValidateCustomScriptsPath()) return;
@@ -85,7 +82,6 @@ namespace ServerObjectCreator.managers
             Console.WriteLine("\nChild folder references updated.");
         }
 
-        /// <summary> Scans and updates file includes inside each 'serverobjects.lua' file. </summary>
         public static void FixFileIncludes()
         {
             if (!ConfigManager.ValidateCustomScriptsPath()) return;
@@ -114,7 +110,6 @@ namespace ServerObjectCreator.managers
             Console.WriteLine("\nFile includes updated.");
         }
 
-        /// <summary> Replicates the folder structure from scripts to custom_scripts. </summary>
         public static void ReplicateScriptFolderStructure()
         {
             if (!ConfigManager.ValidateScriptsPath() || !ConfigManager.ValidateCustomScriptsPath()) return;
@@ -126,7 +121,6 @@ namespace ServerObjectCreator.managers
 
             foreach (string dir in Directory.GetDirectories(sourceRoot, "*", SearchOption.AllDirectories))
             {
-                // Ensure we do NOT copy 'custom_scripts' inside itself
                 if (dir.StartsWith(targetRoot, StringComparison.OrdinalIgnoreCase) || dir.Contains("custom_scripts"))
                 {
                     Console.WriteLine($"Skipping: {dir} (avoiding self-cloning)");
@@ -143,8 +137,6 @@ namespace ServerObjectCreator.managers
             Console.WriteLine("\nFolder structure replicated.");
         }
 
-
-        /// <summary> Extracts lines between two comment headers. If endHeader is null, returns to end of content. </summary>
         private static IEnumerable<string> ExtractIncludeBlock(string content, string startHeader, string? endHeader)
         {
             int start = content.IndexOf(startHeader);
@@ -158,16 +150,23 @@ namespace ServerObjectCreator.managers
                 .Where(line => line.StartsWith("includeFile("));
         }
 
-        /// <summary> Generates the contents of a serverobjects.lua file. </summary>
         private static string GenerateServerObjectsFile(string folderName, IEnumerable<string> childIncludes, IEnumerable<string> fileIncludes)
         {
+            var childBlock = childIncludes.Any()
+                ? string.Join("\n", childIncludes)
+                : "-- (none)";
+
+            var fileBlock = fileIncludes.Any()
+                ? string.Join("\n", fileIncludes)
+                : "-- (none)";
+
             return $@"--print(""\nCustom Server Objects ({folderName}) Loading...\n"")
 --SR2 ServerObjects custom_script overrides
 --Children folder includes:
-{string.Join("\n", childIncludes)}
+{childBlock}
 
 -- Server Objects includes:
-{string.Join("\n", fileIncludes)}
+{fileBlock}
 ";
         }
     }
