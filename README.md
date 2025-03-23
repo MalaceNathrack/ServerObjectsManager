@@ -2,176 +2,133 @@
 
 ![ServerObjectCreator](https://img.shields.io/badge/Version-1.0-blue.svg) ![License](https://img.shields.io/badge/License-AGPLv3-red.svg)
 
-**ServerObjectCreator** is a C# utility designed to manage `serverobjects.lua` files within the `custom_scripts` directory for SWGEmu projects. It automates file creation, structure replication, and reference corrections.
+**ServerObjectCreator** is a C# utility designed to manage `serverobjects.lua` files within the `custom_scripts` directory for SWGEmu projects. It automates file creation, structure replication, reference corrections, and now supports all-in-one update features.
 
 ## 🚀 Features
 
 - ✅ **Create** `serverobjects.lua` in all folders under `custom_scripts`
-- ✅ **Fix child folder references** to ensure all subfolders are properly included
-- ✅ **Fix file includes** by adding `includeFile()` lines for `.lua` scripts
+- ✅ **Fix child folder references** for subdirectory `serverobjects.lua` includes
+- ✅ **Fix file includes** with `includeFile()` for each `.lua` file (excluding system files)
 - ✅ **Delete all** `serverobjects.lua` files (⚠️ Use with caution)
 - ✅ **Replicate folder structure** from `scripts` to `custom_scripts`
-- ✅ **JSON-based configuration** to persist paths
-- ✅ **Prevents recursive duplication** of `custom_scripts`
-- ✅ **Clean and structured menu UI**
-- ✅ **Command-line mode and interactive menu**
+- ✅ **Generate `allobjects.lua`** from every `objects.lua` found recursively
+- ✅ **All-in-one update** mode to run `[2]`, `[3]`, and `[7]` in one step
+- ✅ **JSON-based config system** to persist custom/scripts paths
+- ✅ **Cross-platform builds** for Windows and Linux (tested on Debian 12)
+- ✅ **Supports CLI and Menu UI**
 
 ---
 
-## 🔧 Building the Project (Windows & Linux)
-
-### 🖥️ Windows
-
-1. **Install [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)**  
-2. **Clone the repo:**
-   ```bash
-   git clone https://github.com/MalaceNathrack/ServerObjectCreator.git
-   cd ServerObjectCreator
-   ```
-3. **Build and run the app:**
-   ```bash
-   dotnet build
-   dotnet run
-   ```
-
-Or open `ServerObjectCreator.sln` in **Visual Studio 2022+** and press **F5** to run.
-
----
-
-### 🐧 Linux (Debian/Ubuntu)
-
-1. **Install .NET 8 SDK:**
-   ```bash
-   sudo apt update
-   sudo apt install -y dotnet-sdk-8.0
-   ```
-
-2. **Clone the repo and run:**
-   ```bash
-   git clone https://github.com/MalaceNathrack/ServerObjectCreator.git
-   cd ServerObjectCreator
-   dotnet build
-   dotnet run
-   ```
-
----
-
-## 🖥 CLI Mode vs Interactive Menu
-
-You can use the app with **command-line arguments** for automation, or without args to launch the menu UI.
-
-### ✅ Command-line Examples
+## 🛠 Installation & Setup
 
 ```bash
-# Create 'serverobjects.lua' in all folders (requires valid config)
-dotnet run -- --create
-
-# Fix includeFile() references for Lua files
-dotnet run -- --fix-files
-
-# Fix child folder include references
-dotnet run -- --fix-children
-
-# Delete all serverobjects.lua files (⚠️ use with caution)
-dotnet run -- --delete
-
-# Replicate folder structure from 'scripts' to 'custom_scripts'
-dotnet run -- --replicate
-
-# Set paths interactively
-dotnet run -- --set-paths
-
-# Set paths from CLI arguments
-dotnet run -- --set-paths "C:/MyGame/custom_scripts" "C:/MyGame/scripts"
-
-# Show help
-dotnet run -- --help
+git clone https://github.com/MalaceNathrack/ServerObjectsManager.git
+cd ServerObjectsManager
+dotnet build
+dotnet run
 ```
 
-If the paths are not set or invalid, a friendly message will prompt you to use `--set-paths` first.
+To create a Linux binary:
+```bash
+dotnet publish -c Release -r linux-x64 --self-contained true -o ./publish
+```
 
 ---
 
 ## 📖 Usage Guide
 
+### 🧾 Menu Options
+
 ```
-╔════════════════════════════════════════════════════╗
-║         ServerObjects File Utility (v1.0)         ║
-╠════════════════════════════════════════════════════╣
-║  This tool helps manage 'serverobjects.lua' files  ║
-║  for SWGEmu custom_scripts folder structure.       ║
-╚════════════════════════════════════════════════════╝
+[1] Create 'serverobjects.lua'
+[2] Fix Child Folder References
+[3] Fix File Includes
+[4] Delete All 'serverobjects.lua'
+[5] Set Custom/Scripts Paths
+[6] Replicate Folder Structure
+[7] Generate allobjects.lua from objects.lua files
+[8] Run full update (2, 3, 7)
+[0] Exit
 ```
 
-### Menu Actions
+### 🔹 What They Do
 
 | Option | Description |
 |--------|-------------|
-| **1. Create 'serverobjects.lua'** | Generates `serverobjects.lua` in all subdirectories (if missing). |
-| **2. Fix Child Folder References** | Ensures subfolder `serverobjects.lua` files are correctly included. |
-| **3. Fix File Includes** | Adds `includeFile()` lines for all `.lua` scripts inside the directory. |
-| **4. Delete All 'serverobjects.lua'** | ⚠️ Permanently removes every `serverobjects.lua` inside `custom_scripts`. |
-| **5. Set Custom/Scripts Paths** | Allows setting or updating `custom_scripts` and `scripts` paths. |
-| **6. Replicate Folder Structure** | Copies the structure of `scripts` into `custom_scripts` (excluding `custom_scripts` itself). |
-| **0. Exit** | Closes the tool. |
+| 1 | Creates empty `serverobjects.lua` in each subfolder |
+| 2 | Adds includes for subfolder `serverobjects.lua` files |
+| 3 | Adds `includeFile()` lines for all `.lua` files |
+| 4 | Deletes all `serverobjects.lua` recursively |
+| 5 | Set custom and scripts paths (stored in `config.json`) |
+| 6 | Replicate `scripts` folder structure into `custom_scripts` |
+| 7 | Scan for all `objects.lua` files and generate a categorized `allobjects.lua` |
+| 8 | 📦 **NEW**: Runs `[2] Fix Child Includes`, `[3] Fix File Includes`, and `[7] Generate allobjects.lua` in order |
+| 0 | Exit the tool |
 
 ---
 
-## ⚙ Configuration (`config.json`)
+## ⚙ CLI Options
 
-Stores custom paths:
+Run with:
+```bash
+dotnet run -- --fix-children
+dotnet run -- --fix-files
+dotnet run -- --generate-allobjects
+dotnet run -- --update-all
+```
+
+| Argument              | Description                                                  |
+|-----------------------|--------------------------------------------------------------|
+| `--create`            | Create `serverobjects.lua` in subfolders                     |
+| `--fix-children`      | Fix child folder includes                                    |
+| `--fix-files`         | Fix file includes (`*.lua`)                                  |
+| `--delete`            | Delete all `serverobjects.lua`                               |
+| `--replicate`         | Copy folder structure from `scripts` to `custom_scripts`     |
+| `--generate-allobjects` | Generate `allobjects.lua` listing all `objects.lua` files   |
+| `--update-all`        | 📦 **NEW**: Runs all update steps together (2, 3, 7)          |
+| `--set-paths`         | Prompt to enter paths                                        |
+| `--help`              | Show help message                                            |
+
+---
+
+## 📦 Output Example for allobjects.lua
+
+```lua
+-- Automatically generated list of all objects.lua files
+-- Grouped by folder
+
+-- creatures/npc
+includeFile("custom_scripts/creatures/npc/objects.lua")
+
+-- creatures/player
+includeFile("custom_scripts/creatures/player/objects.lua")
+```
+
+---
+
+## 📂 Config Format
+
+Stored as `config.json` in root:
 
 ```json
 {
-  "CustomScriptsPath": "C:\SWG\custom_scripts",
-  "ScriptsPath": "C:\SWG\scripts"
+  "CustomScriptsPath": "C:\Path\to\custom_scripts",
+  "ScriptsPath": "C:\Path\to\scripts"
 }
 ```
-
-Can be edited manually, or via:
-```bash
-dotnet run -- --set-paths "path/to/custom_scripts" "path/to/scripts"
-```
-
----
-
-## 🏗 Project Structure
-
-```
-ServerObjectCreator/
-│── ServerObjectCreator.sln          # Solution file
-│── README.md                        # This documentation
-│── config.json                      # Stores paths
-│── Program.cs                       # Main entry point
-│
-├── managers/                        # Handles core logic
-│   ├── ConfigManager.cs
-│   ├── FileManager.cs
-│   └── MenuUI.cs
-├── obj/                             # Build artifacts
-├── bin/                             # Executables
-```
-
----
-
-## 🤝 Contributing
-
-💡 **Want to improve this project?** Feel free to contribute!
-
-1. Fork the repo  
-2. Create a branch (`git checkout -b feature-name`)  
-3. Make changes and commit  
-4. Push and open a Pull Request
 
 ---
 
 ## 📝 License
 
-This project is licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.  
-See [LICENSE.txt](LICENSE.txt) or visit [gnu.org/licenses/agpl-3.0](https://www.gnu.org/licenses/agpl-3.0.html).
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.
 
 ---
 
 ## ⭐ Like this project?
 
-Give it a ⭐ on GitHub or share it with other SWGEmu developers!
+If this helped you with your SWGEmu modding, give it a ⭐ star on GitHub!
+
+```
+https://github.com/MalaceNathrack/ServerObjectsManager
+```
