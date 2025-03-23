@@ -1,3 +1,4 @@
+
 # ServerObjectCreator
 
 ![ServerObjectCreator](https://img.shields.io/badge/Version-1.0-blue.svg) ![License](https://img.shields.io/badge/License-AGPLv3-red.svg)
@@ -11,6 +12,8 @@
 - ✅ **Fix file includes** by adding `includeFile()` lines for `.lua` scripts
 - ✅ **Delete all** `serverobjects.lua` files (⚠️ Use with caution)
 - ✅ **Replicate folder structure** from `scripts` to `custom_scripts`
+- ✅ **Generate allobjects.lua** that includes all `objects.lua` files by folder
+- ✅ **Run full update** (child includes, file includes, and generate allobjects.lua)
 - ✅ **JSON-based configuration** to persist paths
 - ✅ **Prevents recursive duplication** of `custom_scripts`
 - ✅ **Clean and structured menu UI**
@@ -72,6 +75,12 @@ dotnet run -- --fix-files
 # Fix child folder include references
 dotnet run -- --fix-children
 
+# Generate allobjects.lua file from all objects.lua
+dotnet run -- --generate-allobjects
+
+# Run full update (fix-children, fix-files, generate-allobjects)
+dotnet run -- --update-all
+
 # Delete all serverobjects.lua files (⚠️ use with caution)
 dotnet run -- --delete
 
@@ -113,6 +122,8 @@ If the paths are not set or invalid, a friendly message will prompt you to use `
 | **4. Delete All 'serverobjects.lua'** | ⚠️ Permanently removes every `serverobjects.lua` inside `custom_scripts`. |
 | **5. Set Custom/Scripts Paths** | Allows setting or updating `custom_scripts` and `scripts` paths. |
 | **6. Replicate Folder Structure** | Copies the structure of `scripts` into `custom_scripts` (excluding `custom_scripts` itself). |
+| **7. Generate allobjects.lua** | Scans for all `objects.lua` files and writes an organized `allobjects.lua`. |
+| **8. Run Full Update** | Performs options 2, 3, and 7 in order. |
 | **0. Exit** | Closes the tool. |
 
 ---
