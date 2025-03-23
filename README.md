@@ -14,34 +14,67 @@
 - ✅ **JSON-based configuration** to persist paths
 - ✅ **Prevents recursive duplication** of `custom_scripts`
 - ✅ **Clean and structured menu UI**
+- ✅ **Command-line mode and interactive menu**
 
 ---
 
-## 🛠 Installation & Setup
+## 🔧 Building the Project (Windows & Linux)
 
-### 1️⃣ **Clone the Repository**
-```sh
-git clone https://github.com/MalaceNathrack/ServerObjectCreator.git
-cd ServerObjectCreator
-```
+### 🖥️ Windows
 
-### 2️⃣ **Build the Project**
-- Open the solution in **Visual Studio** or run:
-```sh
-dotnet build
-```
+1. **Install [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)**  
+2. **Clone the repo:**
+   ```bash
+   git clone https://github.com/MalaceNathrack/ServerObjectCreator.git
+   cd ServerObjectCreator
+   ```
+3. **Build and run the app:**
+   ```bash
+   dotnet build
+   dotnet run
+   ```
 
-### 3️⃣ **Run the Program**
-```sh
-dotnet run
+Or open `ServerObjectCreator.sln` in **Visual Studio 2022+** and press **F5** to run.
+
+---
+
+### 🐧 Linux (Debian/Ubuntu)
+
+1. **Install .NET 8 SDK:**
+   ```bash
+   sudo apt update
+   sudo apt install -y dotnet-sdk-8.0
+   ```
+
+2. **Clone the repo and run:**
+   ```bash
+   git clone https://github.com/MalaceNathrack/ServerObjectCreator.git
+   cd ServerObjectCreator
+   dotnet build
+   dotnet run
+   ```
+
+---
+
+## 🖥 CLI Mode vs Interactive Menu
+
+You can use the app with **command-line arguments** for automation, or without args to launch the menu UI.
+
+### ✅ Command-line Examples
+
+```bash
+dotnet run -- --create          # Create 'serverobjects.lua' in all folders
+dotnet run -- --fix-files       # Fix includeFile() references
+dotnet run -- --fix-children    # Fix subfolder includes
+dotnet run -- --delete          # Delete all 'serverobjects.lua'
+dotnet run -- --replicate       # Copy folder structure
+dotnet run -- --set-paths       # Set paths in config
+dotnet run -- --help            # Show help
 ```
 
 ---
 
 ## 📖 Usage Guide
-
-### 🏠 **Main Menu**
-When launched, the program presents a **menu-driven interface**:
 
 ```
 ╔════════════════════════════════════════════════════╗
@@ -50,22 +83,10 @@ When launched, the program presents a **menu-driven interface**:
 ║  This tool helps manage 'serverobjects.lua' files  ║
 ║  for SWGEmu custom_scripts folder structure.       ║
 ╚════════════════════════════════════════════════════╝
-
-Current Paths:
-  - Custom Scripts: C:\Projects\custom_scripts
-  - Scripts:        C:\Projects\scripts
-
-Available Actions:
-[1] Create 'serverobjects.lua'
-[2] Fix Child Folder References
-[3] Fix File Includes
-[4] Delete All 'serverobjects.lua' (⚠️ Use with caution)
-[5] Set Custom/Scripts Paths
-[6] Replicate Folder Structure
-[0] Exit
 ```
 
-### 🔹 **Options Explained**
+### Menu Actions
+
 | Option | Description |
 |--------|-------------|
 | **1. Create 'serverobjects.lua'** | Generates `serverobjects.lua` in all subdirectories (if missing). |
@@ -80,7 +101,7 @@ Available Actions:
 
 ## ⚙ Configuration (`config.json`)
 
-The program stores its settings in `config.json`:
+Stores custom paths:
 
 ```json
 {
@@ -89,9 +110,7 @@ The program stores its settings in `config.json`:
 }
 ```
 
-To update the paths manually:
-- Edit `config.json` OR
-- Use **option `[5] Set Paths`** in the menu
+Can be edited manually, or via menu option `[5] Set Paths`.
 
 ---
 
@@ -101,16 +120,15 @@ To update the paths manually:
 ServerObjectCreator/
 │── ServerObjectCreator.sln          # Solution file
 │── README.md                        # This documentation
-│── config.json                       # Stores paths
-│── Program.cs                        # Main execution flow
+│── config.json                      # Stores paths
+│── Program.cs                       # Main entry point
 │
-├── managers/                         # Handles core logic
-│   │── ConfigManager.cs               # Manages settings and paths
-│   │── FileManager.cs                 # Handles file operations
-│   │── MenuUI.cs                      # Displays the UI
-│
-├── obj/                               # Build output
-├── bin/                               # Executable output
+├── managers/                        # Handles core logic
+│   ├── ConfigManager.cs
+│   ├── FileManager.cs
+│   └── MenuUI.cs
+├── obj/                             # Build artifacts
+├── bin/                             # Executables
 ```
 
 ---
@@ -119,54 +137,20 @@ ServerObjectCreator/
 
 💡 **Want to improve this project?** Feel free to contribute!
 
-1. **Fork the repository**  
-2. **Create a feature branch** (`git checkout -b new-feature`)  
-3. **Commit changes** (`git commit -m "Added a new feature"`)  
-4. **Push to the branch** (`git push origin new-feature`)  
-5. **Submit a pull request**  
+1. Fork the repo  
+2. Create a branch (`git checkout -b feature-name`)  
+3. Make changes and commit  
+4. Push and open a Pull Request
 
 ---
 
 ## 📝 License
 
-This project is licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.
-
-```
-GNU AFFERO GENERAL PUBLIC LICENSE
-Version 3, 19 November 2007
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published
-by the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/>.
-```
-
----
-
-## 🎯 Future Improvements (TODO List)
-- [ ] Add **logging to a file** instead of just console output
-- [ ] Add **unit tests** to validate functions
-- [ ] Add **CLI arguments** (e.g., `--fix`, `--delete-all`)
-- [ ] Support **custom exclusions** for folder replication
-
----
-
-## 🛠 Need Help?
-If you run into issues, open an [issue on GitHub](https://github.com/MalaceNathrack/ServerObjectCreator/issues) or reach out.
+This project is licensed under the **GNU Affero General Public License v3.0 (AGPLv3)**.  
+See [LICENSE.txt](LICENSE.txt) or visit [gnu.org/licenses/agpl-3.0](https://www.gnu.org/licenses/agpl-3.0.html).
 
 ---
 
 ## ⭐ Like this project?
-If you found this tool useful, **give it a star ⭐ on GitHub**!
 
-```
-git clone https://github.com/MalaceNathrack/ServerObjectCreator.git
-```
+Give it a ⭐ on GitHub or share it with other SWGEmu developers!
